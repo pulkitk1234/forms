@@ -1,0 +1,52 @@
+<!-- <button class="btn btn-primary">Submit</button> -->
+<div class="container-fluid">
+  <h1>Enroll form</h1>
+  <form #userForm="ngForm">
+
+    {{userForm.value | json}}
+    <hr />
+    {{userModel | json}}
+
+    <div class="form-group">
+      <label>Name</label>
+      <input type="text" class="form-control" name="userName" [(ngModel)]=userModel.name>
+    </div>
+
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" class="form-control" name="email" [(ngModel)]=userModel.email> 
+    </div>
+
+    <div class="form-group">
+      <label>Phone</label>
+      <input type="tel" class="form-control" name="phone" [(ngModel)]=userModel.phone>
+    </div>
+
+    <div class="form-group">
+      <select class="custom-select" name="topic" [(ngModel)]=userModel.topic>
+        <option selected>I am interested in</option>
+        <option *ngFor="let topic of topics">{{topic }}</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label>Time preferred</label>
+      <div class="form-check">
+        <input type="radio" value="morning" [(ngModel)]=userModel.timePreference class="form-check-input" name="timePreference">
+        <label class="form-check-label">Morning (9-5)</label>
+
+      </div>
+      <div class="form-check">
+        <input type="radio" value="evening" [(ngModel)]=userModel.timePreference class="form-check-input" name="timePreference">
+        <label class="form-check-label">Eveing (5-8)</label>
+      </div>  
+    </div>
+
+    <div class="form-check mb-3">
+      <input type="checkbox" [(ngModel)]=userModel.subscribe name="subscribe" class="form-check-input">
+      <label class="form-check-label">Send me promos</label>
+    </div>
+
+    <button class="btn btn-primary" type="submit">Submit here</button>
+  </form>
+</div>
