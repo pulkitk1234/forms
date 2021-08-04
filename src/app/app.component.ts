@@ -9,7 +9,8 @@ import { User } from './user';
 export class AppComponent {
   title = 'tdf';
   topics=['Angular','React','Vue'];
+  // first= "heyy";
   
 
-  userModel= new User('Rob','abc@com',334455,'','morning',true);
+  userModel= new User('','abc@com',334455,'','morning',true);
 }
