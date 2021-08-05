@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { FormBuilder, Validators } from '@angular/forms';
 import { PasswordValidator } from './shared/password.validator';
@@ -8,37 +8,48 @@ import { forbiddenNameValidator } from './shared/user-name-validator';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
-  // registrationForm= new FormGroup({
-  //   userName: new FormControl('Pulkit'),
-  //   password: new FormControl(''),
-  //   confirmPassword: new FormControl(''),
-  //   address: new FormControl({
-  //     city: new FormControl(''),
-  //     state: new FormControl(''),
-  //     postalCode: new FormControl('')
+  registrationForm!: FormGroup;
 
-
-  //   })
-  // });
 
   get userName(){
     return this.registrationForm.get('userName');
   }
 
+  get email(){
+    return this.registrationForm.get('email');
+  }
+
   constructor(private fb: FormBuilder) { }
 
-  registrationForm = this.fb.group({
-    userName: ['', [Validators.required, Validators.minLength(4), forbiddenNameValidator(/password/)]],
-    password: [''],
-    confirmPassword: [''],
-    address: this.fb.group({
-      city: [''],
-      state: [''],
-      postalCode: ['']
-    })
-  },{validator: PasswordValidator});
+  ngOnInit(){
+    this.registrationForm = this.fb.group({
+      userName: ['', [Validators.required, Validators.minLength(4), forbiddenNameValidator(/password/)]],
+      email: [''],
+      subscribe: [false],
+      password: [''],
+      confirmPassword: [''],
+      address: this.fb.group({
+        city: [''],
+        state: [''],
+        postalCode: ['']
+      })
+    },{validator: PasswordValidator});
+
+    this.registrationForm.get('subscribe')?.valueChanges
+      .subscribe(checkedValue =>{
+        const email= this.registrationForm.get('email');
+         if(checkedValue){
+           this.email?.setValidators(Validators.required);
+         } else{
+           this.email?.clearValidators();
+         }
+         this.email?.updateValueAndValidity();
+      });
+  }
+
+  
 
   loadApiData() {
     this.registrationForm.patchValue({
@@ -52,4 +63,14 @@ export class AppComponent {
       }
     });
   }
+
+  // updateValidation(checked: any) {
+  //   const email = this.registrationForm.get('email');
+  //   if (checked) {
+  //     email?.setValidators(Validators.required);
+  //   } else {
+  //     email?.clearValidators();
+  //   }
+  //   email?.updateValueAndValidity();
+  // }
 }

@@ -11,4 +11,4 @@ export function PasswordValidator(control: AbstractControl): {[key: string]: boo
     return password && confirmPassword && password.value !== confirmPassword.value ? 
     {'misMatch': true} :
     null;
-}
+} 
